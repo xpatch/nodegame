@@ -9,7 +9,7 @@ var amqp_port = 5672;
 
 var version = '1.0';
 var listen_ip = '0.0.0.0';
-var listen_tcp_port = 8080;
+var listen_tcp_port = 8081;
 var socket_timeout_in_ms = 7000;
 
 var subscribers = [];
@@ -63,7 +63,7 @@ wsServer.on('request', function(request) {
 		return;
 	}
     
-	var connection = request.accept('echo-protocol', request.origin);
+	var connection = request.accept('game-protocol', request.origin);
 
 
 	console.log((new Date()) + ' ' + connection.remoteAddress + ' Connection accepted.');
@@ -76,8 +76,10 @@ wsServer.on('request', function(request) {
 		if (message.type === 'utf8') {
 
 			//console.log('Received Message: ' + message.utf8Data);
+			var initial_state = { success: true };
 			
 			if( message.utf8Data.indexOf('game.initState') == 0 ) {
+				console.log('Sending initial game state.'.info);
 				connection.sendUTF(JSON.stringify(initial_state));
 			} else {
 				var cData = JSON.parse( message.utf8Data );
@@ -122,14 +124,14 @@ wsServer.on('request', function(request) {
 
 
 
-amqp_connection.addListener('ready', function() {
+amqp.addListener('ready', function() {
 	console.log(amqp.serverProperties.product+" "+amqp_ip+":"+amqp_port);
 
-	amqp_connection.exchange('nmapq', { type: 'topic',  confirm: false }, function(exchange) {
+	amqp.exchange('gameq', { type: 'topic',  confirm: false }, function(exchange) {
 		console.log('Exchange ' +exchange.name+ ' is open');
 
 		//auto que name generation
-		amqp_connection.queue('', function (queue) {
+		amqp.queue('', function (queue) {
 
 			console.log('Queue ' + queue.name + ' is open');
 			queue.bind( exchange, 'registration.success.*.*' );

@@ -1,14 +1,30 @@
 {
-  "name": "nodegame",
-  "version": "0.0.0",
-  "description": "Game code",
-  "main": "index.js",
-  "readme": "Readme dataz",
-  "repository": "https://github.com/xpatch/nodegame.git",
-  "url": "https://github.com/xpatch/nodegame",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "BSD-2-Clause"
+	"name": "nodegame",
+	"version": "0.0.0",
+	"description": "Game code",
+	"main": "index.js",
+	"readme": "Readme dataz",
+	"scripts": {
+		"start": "node index.js",
+		"test": "./node_modules/mocha/bin/mocha -R spec -u bdd $(find tests -name 'test_*.js')"
+	},
+
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/xpatch/nodegame.git"
+	},
+        "engines": {
+                "node": ">=0.8"
+        },
+        "dependencies": {
+		"amqp": "~0.1.7"
+	},
+	"devDependencies": {
+		"mocha": "~1.13.0",
+		"chai": "~1.8.1"
+
+	},
+	"author": "",
+	"license": ""
+
 }

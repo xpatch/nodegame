@@ -2,4 +2,16 @@ nodegame
 ========
 
 nodejs game engine
-asdfasdf
+
+CouchDB
+AMQP
+
+
+Auth
+Chat
+Position
+Movement
+Events
+
+
+
